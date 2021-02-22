@@ -27,24 +27,31 @@ namespace WeatherService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WeatherService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "WeatherService", Version = "v1"});
             });
-            
+
             var advancedCircuitBreakerPolicy = Policy
                 .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
                 .AdvancedCircuitBreakerAsync(0.25, TimeSpan.FromSeconds(60), 7, TimeSpan.FromSeconds(30),
                     OnBreak, OnReset, OnHalfOpen);
-            
+
             var basicCircuitBreakerPolicy = Policy
                 .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
                 .CircuitBreakerAsync(2, TimeSpan.FromSeconds(30), OnBreak, OnReset, OnHalfOpen);
 
-            services.AddHttpClient<ITemperatureService, TemperatureService>("TemperatureService").AddPolicyHandler(basicCircuitBreakerPolicy);
-            
+            services.AddHttpClient<ITemperatureService, TemperatureService>("TemperatureService")
+                .AddPolicyHandler(basicCircuitBreakerPolicy)
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(new[]
+                    {
+                        TimeSpan.FromSeconds(1),
+                        TimeSpan.FromSeconds(5),
+                        TimeSpan.FromSeconds(10)
+                    }));
+
             services.AddHealthChecks()
                 .AddCheck("Temperature Service", () =>
                 {
@@ -56,13 +63,10 @@ namespace WeatherService
                     };
                 });
 
-            services.AddHealthChecksUI((settings =>
-            {
-                settings.AddHealthCheckEndpoint("Weather Service", "/hc");
-            })).AddInMemoryStorage();     
-
+            services.AddHealthChecksUI((settings => { settings.AddHealthCheckEndpoint("Weather Service", "/hc"); }))
+                .AddInMemoryStorage();
         }
-        
+
         private void OnHalfOpen()
         {
             Console.WriteLine("Circuit in test mode, one request will be allowed.");
@@ -97,7 +101,7 @@ namespace WeatherService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                
+
                 endpoints.MapHealthChecks("/hc", new HealthCheckOptions
                 {
                     Predicate = _ => true,
@@ -109,11 +113,7 @@ namespace WeatherService
                     Predicate = r => r.Name.Contains("self")
                 });
 
-                endpoints.MapHealthChecksUI(options =>
-                {
-                    options.UIPath = "/hc-ui";
-                });
-
+                endpoints.MapHealthChecksUI(options => { options.UIPath = "/hc-ui"; });
             });
         }
     }
