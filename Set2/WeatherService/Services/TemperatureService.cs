@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Polly;
-using Polly.Caching;
 
 namespace WeatherService.Services
 {
@@ -22,7 +18,6 @@ namespace WeatherService.Services
         public TemperatureService(HttpClient client)
         {
             _client = client;
-            _client.BaseAddress = new Uri("http://localhost:62960/"); //TODO: Move to config
             _client.DefaultRequestHeaders.Add("Accept", "application/json");
 
         }

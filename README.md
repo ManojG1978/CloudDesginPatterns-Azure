@@ -2,7 +2,7 @@
 
 The lab is divided into the following sets of exercises. Each set covers a group of related patterns demonstrated through a simple application written in .NET Core/ASP.NET Core and deployed to an Azure service as applicable
 
-## Set 1: Circuit Breaker, Retry & Health Monitoring
+## Lab 1: Circuit Breaker, Retry & Health Monitoring
 
 1) This set includes two patterns:
    1) [Circuit Breaker](https://docs.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)
@@ -47,7 +47,7 @@ services.AddHealthChecksUI((settings =>
 
 ```
 
-## Set 2: Cache Aside
+## Lab 2: Cache Aside
 
 1) The sample demonstrates [Cache Aside](https://docs.microsoft.com/en-us/azure/architecture/patterns/cache-aside) pattern. 
 2) The following code is added in the *ConfigureServices* method, where an in-memory cache is configured. (On similar lines, you could configure a distributed cache with Azure Redis):
@@ -84,5 +84,30 @@ public async Task<HttpResponseMessage> GetCelsius(int locationId)
 
 
 ```
-4) When you run the application (F5 in Visual Studio), you can see that Temperature service is called the first time and not called for the next 30 seconds (The response is cached in memory) 
+
+4) When you run the application (F5 in Visual Studio), you can see that Temperature service is called the first time and not called for the next 30 seconds (The response is cached in memory).
    
+
+## Lab 3: Gateway Offloading, Throttling, Gateway Routing, Ambassador
+
+This set includes the following patterns:
+    1) [Gateway Offloading](https://docs.microsoft.com/en-us/azure/architecture/patterns/gateway-offloading)
+    2) [Throttling](https://docs.microsoft.com/en-us/azure/architecture/patterns/throttling)
+    3) [Gateway Routing](https://docs.microsoft.com/en-us/azure/architecture/patterns/gateway-routing)
+    4) [Ambassador](https://docs.microsoft.com/en-us/azure/architecture/patterns/ambassador)
+
+
+## Lab 4: Competing Consumer, Queue based load levelling, Pipes and Filters
+
+This set includes the following patterns:
+   1) [Competing Consumer](https://docs.microsoft.com/en-us/azure/architecture/patterns/competing-consumers)
+   2) [Pipes & Filters](https://docs.microsoft.com/en-us/azure/architecture/patterns/pipes-and-filters)
+   3) [Queue based load levelling](https://docs.microsoft.com/en-us/azure/architecture/patterns/queue-based-load-leveling)
+
+## Lab 5: CQRS, Materialized View, Event Sourcing
+
+This set includes the following patterns:
+   1) [CQRS](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs)
+   2) [Materialized View](https://docs.microsoft.com/en-us/azure/architecture/patterns/materialized-view)
+   3) [Event Sourcing](https://docs.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)
+

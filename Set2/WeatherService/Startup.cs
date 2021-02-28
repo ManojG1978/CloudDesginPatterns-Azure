@@ -35,13 +35,15 @@ namespace WeatherService
             var policyRegistry = AddInMemoryCache(services);
             //var policyRegistry = AddDistributedCache(services);
 
-            services.AddHttpClient<ITemperatureService, TemperatureService>("TemperatureService")
-                .AddPolicyHandlerFromRegistry((pairs, message) => 
+            services.AddHttpClient<ITemperatureService, TemperatureService>("TemperatureService", client =>
+                {
+                    client.BaseAddress = new Uri(Configuration["temperatureServiceUrl"]);
+                }).AddPolicyHandlerFromRegistry((pairs, message) => 
                     policyRegistry.Get<IAsyncPolicy<HttpResponseMessage>>("CachingPolicy"));
         }
         
 
-        private IPolicyRegistry<string> AddInMemoryCache(IServiceCollection services)
+        private static IPolicyRegistry<string> AddInMemoryCache(IServiceCollection services)
         {
             services.AddMemoryCache();
             services.AddSingleton<IAsyncCacheProvider, MemoryCacheProvider>();
@@ -55,15 +57,13 @@ namespace WeatherService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherService v1"));
             }
+            
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherService v1"));
 
-            app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
