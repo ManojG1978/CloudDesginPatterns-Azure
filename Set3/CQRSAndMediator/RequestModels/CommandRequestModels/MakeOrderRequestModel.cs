@@ -20,7 +20,7 @@ namespace CQRSAndMediator.RequestModels.CommandRequestModels
         public Guid ProductId { get; set; }
 
         [JsonProperty(PropertyName = "productName")]
-        public Guid ProductName { get; set; }
+        public string ProductName { get; set; }
 
         [JsonProperty(PropertyName = "quantity")]
         public int Quantity { get; set; }
@@ -30,5 +30,9 @@ namespace CQRSAndMediator.RequestModels.CommandRequestModels
 
         [JsonProperty(PropertyName = "orderedById")]
         public Guid OrderedById { get; set; }
+        
+        [JsonProperty(PropertyName = "orderedBy")]
+        public string OrderedBy { get; set; }
+
     }
 }
