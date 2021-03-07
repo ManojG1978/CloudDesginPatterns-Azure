@@ -1,4 +1,3 @@
-using System;
 using Bogus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -14,7 +13,7 @@ namespace CovidSample
             [QueueTrigger("transcribed-voice-files", Connection = "storageConnectionString")]string inputQueueItem, 
             ILogger log)
         {
-            
+            // This is only a simulation. In a real scenario, you could employ a service like Azure Cognitive Service - Text Analytics for this
             dynamic jsonRequest = JObject.Parse(inputQueueItem);
             var faker = new Faker();
             

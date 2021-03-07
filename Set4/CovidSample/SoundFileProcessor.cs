@@ -14,14 +14,13 @@ namespace CovidSample
             dynamic jsonRequest = JObject.Parse(inputQueueItem);
             var faker = new Faker();
             
-            //Enrich existing message with a translation (bogus message)
+            // Enrich existing message with a translation (bogus message). 
+            // This is only a simulation. In a real scenario, you could employ a service like Azure Cognitive Service - Speech to Text for this
             jsonRequest["translation"] = faker.Lorem.Paragraph();
             
-            log.LogInformation($"C# Queue trigger function processed: {inputQueueItem}");
+            log.LogInformation($"SoundFileProcessor function processed: {inputQueueItem}");
 
             return jsonRequest.ToString();
-            
-            
         }
     }
 }
