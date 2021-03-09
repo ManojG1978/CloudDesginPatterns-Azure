@@ -49,7 +49,7 @@ namespace CQRSAndMediator.Infrastructure
                         query,
                         requestOptions: new QueryRequestOptions()
                         {
-                            PartitionKey = new PartitionKey("orderId"),
+                            PartitionKey = new PartitionKey(orderId),
                             MaxItemCount = 1
                         }))
                 {

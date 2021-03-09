@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TemperatureService.Controllers
@@ -13,6 +14,7 @@ namespace TemperatureService.Controllers
         [HttpGet("{locationId}")]
         public ActionResult Get(int locationId)
         {
+            Thread.Sleep(5000);
             _counter++;
             if (_counter % 4 != 0)
             {

@@ -48,8 +48,7 @@ namespace WeatherService
                     builder.WaitAndRetryAsync(new[]
                     {
                         TimeSpan.FromSeconds(1),
-                        TimeSpan.FromSeconds(5),
-                        TimeSpan.FromSeconds(10)
+                        TimeSpan.FromSeconds(5)
                     }));
 
             services.AddHealthChecks()
@@ -57,8 +56,8 @@ namespace WeatherService
                 {
                     return basicCircuitBreakerPolicy.CircuitState switch
                     {
-                        CircuitState.Open => HealthCheckResult.Unhealthy(),
-                        CircuitState.HalfOpen => HealthCheckResult.Degraded(),
+                        CircuitState.Open => HealthCheckResult.Unhealthy("Circuit Breaker is in Open State"),
+                        CircuitState.HalfOpen => HealthCheckResult.Degraded("Circuit Breaker is in Half Open State"),
                         _ => HealthCheckResult.Healthy()
                     };
                 });
@@ -69,17 +68,24 @@ namespace WeatherService
 
         private void OnHalfOpen()
         {
-            Console.WriteLine("Circuit in test mode, one request will be allowed.");
+            WriteToConsole("Circuit in test mode, one request will be allowed.");
         }
 
         private void OnReset()
         {
-            Console.WriteLine("Circuit closed, requests flow normally.");
+            WriteToConsole("Circuit closed, requests flow normally.");
         }
 
         private void OnBreak(DelegateResult<HttpResponseMessage> result, TimeSpan ts)
         {
-            Console.WriteLine("Circuit cut, requests will not flow.");
+            WriteToConsole("Circuit cut, requests will not flow.");
+        }
+
+        private void WriteToConsole(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

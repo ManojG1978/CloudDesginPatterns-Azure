@@ -22,7 +22,7 @@ namespace CQRSAndMediator.Controllers
             return Ok(response);
         }
 
-        [HttpGet("order")]
+        [HttpGet("getorder")]
         public async Task<ActionResult> OrderDetails([FromQuery] GetOrderByIdRequestModel requestModel)
         {
             var response = await _mediator.Send(requestModel);
