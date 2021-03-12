@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using OrderingService.Application.Commands;
 using OrderingService.Infrastructure.Idempotency;
 
-namespace OrderingService.Application.Commands
+namespace OrderingService.Application.CommandHandlers
 {
     /// <summary>
     /// Provides a base implementation for handling duplicate request and ensuring idempotent updates, in the cases where

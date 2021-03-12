@@ -3,10 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using OrderingService.Application.Commands;
 using OrderingService.Domain.AggregatesModel.OrderAggregate;
 using OrderingService.Infrastructure.Repositories;
 
-namespace OrderingService.Application.Commands
+namespace OrderingService.Application.CommandHandlers
 {
     // Regular CommandHandler
     public class CreateOrderCommandHandler

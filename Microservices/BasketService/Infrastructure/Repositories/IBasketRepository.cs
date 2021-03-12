@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BuildingBlocks;
+using CustomerBasket = BasketService.Domain.AggregateRoot.CustomerBasket;
 
 namespace BasketService.Infrastructure.Repositories
 {

@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using OrderingService.Application.Commands;
 using OrderingService.Infrastructure.Idempotency;
 
-namespace OrderingService.Application.Commands
+namespace OrderingService.Application.CommandHandlers
 {
     // Use for Idempotency in Command process
 
