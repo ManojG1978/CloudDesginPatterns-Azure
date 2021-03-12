@@ -5,6 +5,6 @@ namespace OrderingService.Application.IntegrationEvents
 {
     public interface IOrderingIntegrationEventService
     {
-        void PublishThroughEventBus(IntegrationEvent evt);
+        void PublishThroughEventBus<T>(T evt) where T : IntegrationEvent;
     }
 }

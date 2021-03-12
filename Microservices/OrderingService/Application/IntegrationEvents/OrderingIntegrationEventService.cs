@@ -17,7 +17,7 @@ namespace OrderingService.Application.IntegrationEvents
             _logger = loggerFactory.CreateLogger(nameof(OrderingIntegrationEventService));
         }
 
-        public void PublishThroughEventBus(IntegrationEvent evt)
+        public void PublishThroughEventBus<T>(T evt) where T: IntegrationEvent
         {
             SaveEventAndOrderingContextChanges(evt);
 
@@ -35,7 +35,7 @@ namespace OrderingService.Application.IntegrationEvents
             //In one Transaction
             //Save Order
             //Save Event
-            _logger.LogInformation("Saving Order information and event within the same (resilient) transaction");
+            _logger.LogInformation($"Saving Order information and event within the same (resilient) transaction");
         }
     }
 }

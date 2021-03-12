@@ -34,11 +34,12 @@ namespace BuildingBlocks
         {
             foreach (var handlerType in _subscribedEventHandlerTypes)
             {
-                if (typeof(ICanHandle<T>).IsAssignableFrom(handlerType))
+                if (handlerType.IsAssignableTo(typeof(ICanHandle<T>)))
                 {
                     yield return (ICanHandle<T>) _serviceProvider.GetService(handlerType);
                 }
             }
         }
+
     }
 }

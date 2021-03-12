@@ -22,6 +22,7 @@ namespace OrderingService.Application.IntegrationEvents.EventHandling
             _orderingIntegrationEventService 
                 = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
             _logger = loggerFactory.CreateLogger((nameof(UserCheckoutAcceptedIntegrationEventHandler)));
+            
         }
 
         
@@ -42,7 +43,14 @@ namespace OrderingService.Application.IntegrationEvents.EventHandling
                     @event.CardSecurityNumber, @event.CardTypeId);
 
                 var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, bool>(createOrderCommand, @event.RequestId);
-                result = await _mediator.Send(requestCreateOrder);
+                try
+                {
+                    result = await _mediator.Send(requestCreateOrder);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogCritical(ex.ToString());
+                }
                 
             }            
 
