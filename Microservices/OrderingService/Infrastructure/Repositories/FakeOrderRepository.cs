@@ -24,14 +24,14 @@ namespace OrderingService.Infrastructure.Repositories
         public Order Add(Order order)
         {
             _order = order;
-            _logger.LogInformation($"Adding an order[{order.Id}]. Not committing yet");
+            _logger.LogInformation($"Adding an order entity[{order.Id}]");
             return order;
         }
 
         public void Update(Order order)
         {
             _order = order;
-            _logger.LogInformation($"Updating an order[{order.Id}]. Not committing yet");
+            _logger.LogInformation($"Updating an order entity[{order.Id}]");
 
         }
 
@@ -48,7 +48,7 @@ namespace OrderingService.Infrastructure.Repositories
 
         public int SaveChanges()
         {
-            _logger.LogInformation("Committing Order and related changes to the database");
+            _logger.LogInformation("Committing Order aggregate to the database");
             return 1;
         }
 
@@ -58,9 +58,9 @@ namespace OrderingService.Infrastructure.Repositories
 
             _order.ClearDomainEvents();
 
+            _logger.LogInformation($"Publishing domain events and committing Order entities to the database");
+            
             domainEvents.ForEach(async e => await _mediator.Publish(e));
-
-            _logger.LogInformation("Publishing events and committing Order entities to the database");
 
             return true;
         }

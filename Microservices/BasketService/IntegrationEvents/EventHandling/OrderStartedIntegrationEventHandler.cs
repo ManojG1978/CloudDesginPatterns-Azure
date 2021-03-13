@@ -20,7 +20,7 @@ namespace BasketService.IntegrationEvents.EventHandling
         
         public async Task<bool> TryHandleAsync(OrderStartedIntegrationEvent @event)
         {
-            _logger.LogInformation("Handling the OrderStartedIntegrationEventHandler within Basket service");
+            _logger.LogInformation($"Handling the OrderStartedIntegrationEventHandler within Basket service for user id: {@event.UserId}");
             _repository.DeleteBasket(@event.UserId);
             return true;
         }

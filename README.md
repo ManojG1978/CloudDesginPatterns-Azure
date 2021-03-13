@@ -204,3 +204,19 @@ public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdRequestModel
         }
     }
 ```
+
+## Lab 6: Valet Key Pattern
+
+| Problem Statement | Solution | Alternatives/Related Patterns
+| ----------------- | ---------|-----------------------------|
+| You are the architect of an application which allows users to download all their data on request. Once a request is made by the user, the application puts together all information in a secure location and shares the link in a secure way. The application should be offloading that responsibility entirely as the data may be very large. Also users should just have enough permission to read/download the data. This link should be expire in a given period of time (1 Week by default)| You use the [Valet Key](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/dn568102(v=pandp.10)) Pattern with Azure Blobs. You generate Shared Access Signatures (SAS) for each user container and share that from the app. The user can use the SAS URI and access the contents with a suitable tool|
+
+1) The Set5\ValetKey project has a simple console application that simulates the end user scenario of create a blob container, uploading some sample file and then generating a SAS URI, which is then used to download and print the contents of the file.
+
+## Lab 7: Domain Driven Design for a Microservices approach
+
+1) The Microservices folder has a C# solution with projects representing a small subset of the full [eShop](https://github.com/dotnet-architecture/eShopOnContainers) reference implementation from Microsoft.
+2) The sample simulates the set of processes that are triggered on a ecommerce site after the user decides to checkout the order.
+3) The solution does not have any database (only fake repositories are used) and employs a simple in-memory event bus for domain integration events used to communicate between different microservices (Order and Basket in this example)
+4) Run the solution to check the flow of events and the sequence of processing. The solution uses MediaTr for command handling
+5) The solution also showcases a typical solution structure that can be used in a typical microservices project. 

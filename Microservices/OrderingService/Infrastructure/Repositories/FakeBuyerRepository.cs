@@ -22,14 +22,14 @@ namespace OrderingService.Infrastructure.Repositories
         public Buyer Add(Buyer buyer)
         {
             _buyer = buyer;
-            _logger.LogInformation($"Adding buyer with id: {buyer.Identity}. Not committing yet");
+            _logger.LogInformation($"Adding buyer entity with id: {buyer.Identity}.");
             return buyer;
         }
 
         public Buyer Update(Buyer buyer)
         {
             _buyer = buyer;
-            _logger.LogInformation($"Updating buyer with id: {buyer.Identity}. Not committing yet");
+            _logger.LogInformation($"Updating buyer with id: {buyer.Identity}.");
             return buyer;
         }
 
@@ -64,9 +64,10 @@ namespace OrderingService.Infrastructure.Repositories
 
             _buyer.ClearDomainEvents();
 
+            _logger.LogInformation("Publishing domain events and Committing buyer entities to the database");
+            
             domainEvents.ForEach(async e => await _mediator.Publish(e));
 
-            _logger.LogInformation("Publishing events and Committing buyer entities to the database");
             return true;
         }
     }
