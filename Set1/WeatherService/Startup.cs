@@ -9,6 +9,7 @@ using System.Net.Http;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.CircuitBreaker;
 using WeatherService.Services;
@@ -17,6 +18,8 @@ namespace WeatherService
 {
     public class Startup
     {
+        private ILogger _logger;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -64,29 +67,29 @@ namespace WeatherService
 
             services.AddHealthChecksUI((settings => { settings.AddHealthCheckEndpoint("Weather Service", "/hc"); }))
                 .AddInMemoryStorage();
+
+            using var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
+            _logger = loggerFactory.CreateLogger<Program>();
         }
 
         private void OnHalfOpen()
         {
-            WriteToConsole("Circuit in test mode, one request will be allowed.");
+            _logger.LogInformation("Circuit in test mode, one request will be allowed.");
         }
 
         private void OnReset()
         {
-            WriteToConsole("Circuit closed, requests flow normally.");
+            _logger.LogInformation("Circuit closed, requests flow normally.");
         }
 
         private void OnBreak(DelegateResult<HttpResponseMessage> result, TimeSpan ts)
         {
-            WriteToConsole("Circuit cut, requests will not flow.");
+            _logger.LogInformation("Circuit cut, requests will not flow.");
         }
 
-        private void WriteToConsole(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(message);
-            Console.ResetColor();
-        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

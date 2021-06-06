@@ -25,14 +25,14 @@ namespace OrdersMaterializedViewCreator
         {
             if (input != null && input.Count > 0)
             {
-                var p = new ViewProcessor(client, log);
+                var viewProcessor = new ViewProcessor(client, log);
                 
                 log.LogInformation($"Processing {input.Count} events");
                 
                 foreach(var d in input)
                 {
                     var order = OrderModel.FromDocument(d);
-                    await p.UpdateOrderMaterializedView(order);
+                    await viewProcessor.UpdateOrderMaterializedView(order);
 
                 }    
             }

@@ -25,7 +25,7 @@ namespace QueueMessageGenerator
         private static async Task QueueMessages(int requestedAmount)
         {
             ConfigurationBuilder configurationBuilder =  new ConfigurationBuilder();
-            Configuration = configurationBuilder.AddJsonFile("appSettings.json").Build();
+            Configuration = configurationBuilder.AddUserSecrets<Program>().Build();
 
             QueueClient queueClient = new QueueClient(Configuration["connectionString"], Configuration["queueName"]);
             for (int currentOrderAmount = 0; currentOrderAmount < requestedAmount; currentOrderAmount++)

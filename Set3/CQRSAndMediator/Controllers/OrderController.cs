@@ -15,14 +15,14 @@ namespace CQRSAndMediator.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("makeorder")]
+        [HttpPost("makeOrder")]
         public async Task<ActionResult> MakeOrder([FromBody] MakeOrderRequestModel requestModel)
         {
             var response = await _mediator.Send(requestModel);
             return Ok(response);
         }
 
-        [HttpGet("getorder")]
+        [HttpGet("getOrder")]
         public async Task<ActionResult> OrderDetails([FromQuery] GetOrderByIdRequestModel requestModel)
         {
             var response = await _mediator.Send(requestModel);
