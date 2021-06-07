@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace WeatherService.Services
 {
@@ -15,12 +13,14 @@ namespace WeatherService.Services
 
     public class TemperatureService : ITemperatureService
     {
+        private IConfiguration Configuration { get; }
         private readonly HttpClient _client;
 
-        public TemperatureService(HttpClient client)
+        public TemperatureService(HttpClient client, IConfiguration configuration)
         {
+            Configuration = configuration;
             _client = client;
-            _client.BaseAddress = new Uri("http://localhost:62960/"); //TODO: Move to config
+            _client.BaseAddress = new Uri(Configuration["TempServiceUrl"]); 
             _client.DefaultRequestHeaders.Add("Accept", "application/json");
             
         }
