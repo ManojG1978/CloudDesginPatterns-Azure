@@ -53,8 +53,7 @@ namespace CQRSAndMediator
             var cosmosDbService = new CosmosDbService(client, databaseName, readContainerName, writeContainerName);
             var database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
             await database.Database.CreateContainerIfNotExistsAsync(readContainerName, "/orderId");
-
-            //await database.Database.CreateContainerIfNotExistsAsync(writeContainerName, "/orderId");
+            await database.Database.CreateContainerIfNotExistsAsync(writeContainerName, "/orderId");
 
             return cosmosDbService;
         }
