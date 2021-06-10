@@ -26,7 +26,7 @@ namespace CQRSAndMediator.Infrastructure
             _writeContainerName = writeContainerName;
         }
 
-        public async Task AddOrderAsync(MakeOrderRequestModel order)
+        public async Task AddOrderAsync(MakeOrderRequest order)
         {
             var container = _dbClient.GetContainer(_databaseName, _writeContainerName);
             await container.CreateItemAsync(order, new PartitionKey(order.OrderId));
