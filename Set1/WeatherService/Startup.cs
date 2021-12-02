@@ -50,8 +50,8 @@ namespace WeatherService
                 .AddTransientHttpErrorPolicy(builder =>
                     builder.WaitAndRetryAsync(new[]
                     {
-                        TimeSpan.FromSeconds(1),
-                        TimeSpan.FromSeconds(5)
+                        TimeSpan.FromMilliseconds(100),
+                        TimeSpan.FromMilliseconds(500),
                     }));
 
             services.AddHealthChecks()

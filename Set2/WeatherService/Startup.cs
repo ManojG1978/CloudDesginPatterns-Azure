@@ -34,7 +34,7 @@ namespace WeatherService
             
             var policyRegistry = AddInMemoryCache(services);
             //var policyRegistry = AddDistributedCache(services);
-
+            
             services.AddHttpClient<ITemperatureService, TemperatureService>("TemperatureService", client =>
                 {
                     client.BaseAddress = new Uri(Configuration["temperatureServiceUrl"]);
